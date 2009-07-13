@@ -1,0 +1,5 @@
+h2. tinycrawl
+
+This is an attempt to make something akin to "Squidi's":squidi idea ["No. 101":http://squidi.net/three/entry.php?id=101].
+
+Right now it is pretty preliminary, but after a while it might become something a bit more fleshed out.
