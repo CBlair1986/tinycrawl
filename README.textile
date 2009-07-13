@@ -5,3 +5,4 @@ This is an attempt to make something akin to "Squidi's":squidi idea ["No. 101":h
 Right now it is pretty preliminary, but after a while it might become something a bit more fleshed out.
 
 [squidi]:http://squidi.net/
+
