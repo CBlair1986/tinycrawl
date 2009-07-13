@@ -9,21 +9,10 @@ package tinyCrawl
     def main(args: Array[String]): Unit = run {
       val frame = new MainFrame {
         title = "T E S T   W I N D O W"
-        contents = new Label("whaddup?!")
+        contents = new GraphView(Graph.randomGraph(500))
       }
       frame.pack()
       frame.visible = true
     }
   }
-
-  class Person(name: String) {
-    val getName = name
-    def getMentality = m
-    val m = Map[Person,Int]()
-      override def toString() = { "Person: " + name }
-    def love(another: Person) { m += Pair(another, 1) }
-    def hate(another: Person) { m += Pair(another, -1) }
-    def forget(another:Person) { m -= another }
-  }
-
 }
