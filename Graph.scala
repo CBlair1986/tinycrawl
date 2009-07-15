@@ -20,8 +20,9 @@ package tinycrawl.models {
         val l = for {i <- 1 to num} yield {
           val x = r.nextInt(100)
           val y = r.nextInt(100)
+          val i = r.nextInt(3)
           val name = r.nextInt(10000).toString
-          Node(name,Position(x,y))
+          PositionedNode(name,TerrainTypes(i),Position(x,y))
         }
         l.toList
       }
@@ -62,13 +63,24 @@ package tinycrawl.models {
   }
 
   /**
-    Something to name a point in space, right now currently valueless
+    Something to name a point in space
     */
-  case class Node(name: String, position: Position) {
-    def this(name: String, x: Int, y: Int) {
-      this(name, new Position(x,y))
+  case class PositionedNode(node: Node, position: Position) {
+    def this(name: String, terrainType: Symbol, x: Int, y: Int) {
+      this(Node(name, terrainType), x,y)
+    }
+    def this(name: String, terrainType: Symbol, position: Position) {
+      this(Node(name, terrainType), position)
+    }
+    def this(aNode: Node, x: Int, y: Int) {
+      this(aNode, Position(x,y))
     }
   }
+
+  /**
+    A unique identifier for an unspecified point in space
+    */
+  case class Node(name: String, terrainType: Symbol) { }
   
   /**
     defines a rectangle, given the coordinates of the top and left, and a width
@@ -95,5 +107,12 @@ package tinycrawl.models {
   /**
     placeholder for now, I will end up using the scala.swing Line or something
     */
-  case class Line(start: Position, end: Position) { }
+  case class Line(start: Position, end: Position) {
+    /**
+      TODO: I need to get something going here where the line has a list
+      of Agents as content. Then I need to implement collision and
+      non-colliding objects.  This should be fun, when I get around to
+      it.
+      */
+  }
 }
