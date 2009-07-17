@@ -1,9 +1,10 @@
-import swing._
-import event._
-import collection.mutable.Map
+package tinycrawl {
+  import swing._
+  import event._
+  import collection.mutable.Map
+  import models._
+  import views._
 
-package tinyCrawl
-{
 
   object Program extends GUIApplication {
     def main(args: Array[String]): Unit = run {

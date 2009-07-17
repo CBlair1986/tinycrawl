@@ -4,7 +4,7 @@ package tinycrawl.models {
       Convenience method so that I can do something like Graph(a,b,c,d,e) like
       it is possible to do with List and Array and such...
       */
-    def apply(pairs: Pair[Node,Node]*) = {
+    def apply(pairs: Pair[PositionedNode,PositionedNode]*) = {
       val p = pairs.toArray
       new Graph(p)
     }
@@ -14,15 +14,14 @@ package tinycrawl.models {
       nodes and then zipping it up with its tail
       */
     def randomGraph(numNodes: Int) = {
-      def randomNodes(num: Int): List[Node] = {
+      def randomNodes(num: Int): List[PositionedNode] = {
         import util.Random
         val r = new Random
         val l = for {i <- 1 to num} yield {
-          val x = r.nextInt(100)
-          val y = r.nextInt(100)
+          val x = r.nextDouble
+          val y = r.nextDouble
           val i = r.nextInt(3)
-          val name = r.nextInt(10000).toString
-          PositionedNode(name,TerrainTypes(i),Position(x,y))
+          new PositionedNode(TerrainTypes(i),Position(x,y))
         }
         l.toList
       }
@@ -36,7 +35,7 @@ package tinycrawl.models {
     A class representing a group of linked nodes. Currently the nodes are
     considered valueless, but that might change.
     */
-  class Graph(pairs: Array[Pair[Node,Node]]) {
+  class Graph(pairs: Array[Pair[PositionedNode,PositionedNode]]) {
     val connections = pairs.toList
 
     /**
@@ -60,27 +59,50 @@ package tinycrawl.models {
         }
       } map { case (n1,n2) => new Line(n1.position, n2.position) }
     }
+
+    /**
+      returns all the lines in the graph
+      */
+    def getLines = {
+      connections map { case (n1, n2) => new Line(n1.position, n2.position) }
+    }
+
+    /**
+      returns a list of nodes within the given Rectangle
+      */
+    def getNodesWithin(bounds: Rectangle): List[PositionedNode] = {
+      // TODO: return the value
+      error("Unimplemented")
+    }
+
+    /**
+      returns all the nodes in the graph
+      */
+    def getNodes = {
+      // TODO
+      error("Unimplemented")
+    }
   }
 
   /**
     Something to name a point in space
     */
   case class PositionedNode(node: Node, position: Position) {
-    def this(name: String, terrainType: Symbol, x: Int, y: Int) {
-      this(Node(name, terrainType), x,y)
-    }
-    def this(name: String, terrainType: Symbol, position: Position) {
-      this(Node(name, terrainType), position)
-    }
-    def this(aNode: Node, x: Int, y: Int) {
+    def this(aNode: Node, x: Int, y: Int) = {
       this(aNode, Position(x,y))
+    }
+    def this(terrainType: Symbol, x: Int, y: Int) = {
+      this(new Node(terrainType), x, y)
+    }
+    def this(terrainType: Symbol, position: Position) = {
+      this(Node(terrainType), position)
     }
   }
 
   /**
     A unique identifier for an unspecified point in space
     */
-  case class Node(name: String, terrainType: Symbol) { }
+  case class Node(terrainType: Symbol) { }
   
   /**
     defines a rectangle, given the coordinates of the top and left, and a width
@@ -94,7 +116,7 @@ package tinycrawl.models {
   /**
     defines a point in space
     */
-  case class Position(x: Int, y: Int) {
+  case class Position(x: Double, y: Double) {
     /**
       test to see if the point lies within the given Rectangle
       */
@@ -114,5 +136,12 @@ package tinycrawl.models {
       non-colliding objects.  This should be fun, when I get around to
       it.
       */
+  }
+
+  object TerrainTypes {
+    val types = List('Town,'Forest,'Dungeon,'Swamp)
+    def apply(i: Int): Symbol = {
+      types(i)
+    }
   }
 }
