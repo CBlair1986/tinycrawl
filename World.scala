@@ -9,13 +9,13 @@ package tinycrawl.model {
       nodes += new Node(terrainType, position, ID.next)
     }
 
-    def removeNode(node: PositionedNode): PositionedNode = {
+    def removeNode(node: Node): Node = {
       nodes -= node
       node
     }
 
     def findNodeByID(id: Int): Option[Node] = {
-      nodes filter { case Node(_, _, anID) => id == anID }
+      nodes find { case Node(_, _, anID) => id == anID }
     }
 
     def connect(startNode: Node, endNode: Node): Unit = {
