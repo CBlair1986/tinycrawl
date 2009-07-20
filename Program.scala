@@ -3,6 +3,7 @@ package tinycrawl {
   import event._
   import model._
   import view._
+  import java.awt.Dimension
 
   object Program extends GUIApplication {
     val w: World = World.random(50)
@@ -18,9 +19,15 @@ package tinycrawl {
       w.connect(b,d)
       w.connect(a,d)
       val frame = new MainFrame {
-        preferredSize = (100,100)
+        preferredSize = (400,400)
+        minimumSize = new Dimension(100,100)
         title = "tinycrawl"
-        contents = new WorldView(w)
+        contents = new BoxPanel(Orientation.Vertical) {
+          contents += new WorldView(w) {
+            border = Swing.LineBorder(java.awt.Color.black)
+          }
+          contents += new WorldView(w)
+        }
       }
 
       frame.pack()
